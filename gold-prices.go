@@ -26,6 +26,7 @@ type Price struct {
 
 func (g *Gold) GetPrices() (*Price, error) {
 	if g.Client == nil {
+		log.Println("setting to live client in GetPrices")
 		g.Client = &http.Client{}
 	}
 	client := g.Client
@@ -45,7 +46,7 @@ func (g *Gold) GetPrices() (*Price, error) {
 		return nil, err
 	}
 
-	fmt.Println(string(body))
+	// fmt.Println(string(body))
 
 	gold := Gold{}
 	var previous, current, change float64
