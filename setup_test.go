@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"goldWatcher/repository"
 	"io"
 	"net/http"
 	"os"
@@ -16,6 +17,8 @@ func TestMain(m *testing.M) {
 	a := test.NewApp()
 	testApp.App = a
 	testApp.HTTPClient = client
+	testApp.MainWindow = a.NewWindow("")
+	testApp.DB = repository.NewTestReposotory()
 
 	os.Exit(m.Run())
 }

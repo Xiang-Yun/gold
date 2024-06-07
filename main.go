@@ -1,6 +1,7 @@
 package main
 
 import (
+	"goldWatcher/repository"
 	"log"
 	"net/http"
 	"os"
@@ -19,6 +20,7 @@ type Config struct {
 	ToolBar             *widget.Toolbar
 	PriceChartContainer *fyne.Container
 	HTTPClient          *http.Client
+	DB                  repository.Repository
 }
 
 var myApp Config
