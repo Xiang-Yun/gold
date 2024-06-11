@@ -5,16 +5,19 @@ import (
 	"goldWatcher/repository"
 	"strconv"
 
-	"fyne.io/fyne/theme"
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 )
 
 func (app *Config) holdingsTab() *fyne.Container {
 	app.HoldingsTable = app.getHoldingsTable()
 
-	return nil
+	holdingsContainer := container.NewVBox(app.HoldingsTable)
+
+	return holdingsContainer
 }
 
 func (app *Config) getHoldingsTable() *widget.Table {
@@ -26,13 +29,13 @@ func (app *Config) getHoldingsTable() *widget.Table {
 			return len(data), len(data[0])
 		},
 		func() fyne.CanvasObject {
-			ctr := widget.NewLabel("")
+			ctr := container.NewVBox(widget.NewLabel(""))
 			return ctr
 		},
 		func(i widget.TableCellID, o fyne.CanvasObject) {
 			if i.Col == (len(data[0])-1) && i.Row != 0 {
 				// last cell - put in a button
-				w := widget.NewButtonWithIcon("Delete", theme.DeleteIcon(), func() {
+				w := widget.NewButtonWithIcon("Delete?", theme.DeleteIcon(), func() {
 					dialog.ShowConfirm("Delete?", "", func(deleted bool) {
 						id, _ := strconv.Atoi(data[i.Row][0].(string))
 						err := app.DB.DeleteHolding(int64(id))
@@ -63,7 +66,7 @@ func (app *Config) getHoldingsTable() *widget.Table {
 		t.SetColumnWidth(i, colWidths[i])
 	}
 
-	return nil
+	return t
 }
 
 func (app *Config) getHoldingSlice() [][]interface{} {
@@ -95,7 +98,7 @@ func (app *Config) getHoldingSlice() [][]interface{} {
 func (app *Config) currentHoldings() ([]repository.Holdings, error) {
 	holdings, err := app.DB.AllHoldings()
 	if err != nil {
-		app.ErrorLog.Println(err)
+		app.ErrorLog.Println("error AllHoldings:", err)
 		return nil, err
 	}
 	return holdings, nil
