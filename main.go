@@ -15,12 +15,14 @@ type Config struct {
 	App                 fyne.App
 	InfoLog             *log.Logger
 	ErrorLog            *log.Logger
+	DB                  repository.Repository
 	MainWindow          fyne.Window
 	PriceContainer      *fyne.Container
 	ToolBar             *widget.Toolbar
 	PriceChartContainer *fyne.Container
 	HTTPClient          *http.Client
-	DB                  repository.Repository
+	Holdings            [][]interface{}
+	HoldingsTable       *widget.Table
 }
 
 var myApp Config

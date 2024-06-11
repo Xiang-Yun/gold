@@ -12,11 +12,14 @@ import (
 )
 
 func (app *Config) holdingsTab() *fyne.Container {
+	app.HoldingsTable = app.getHoldingsTable()
+
 	return nil
 }
 
-func (app *Config) getHoldingsTab() *widget.Table {
+func (app *Config) getHoldingsTable() *widget.Table {
 	data := app.getHoldingSlice()
+	app.Holdings = data
 
 	t := widget.NewTable(
 		func() (int, int) {
@@ -36,7 +39,8 @@ func (app *Config) getHoldingsTab() *widget.Table {
 						if err != nil {
 							app.ErrorLog.Println(err)
 						}
-						// TODO: refresh the holdings table
+						// refresh the holdings table
+						app.refreshHoldingsTable()
 
 					}, app.MainWindow)
 				})
