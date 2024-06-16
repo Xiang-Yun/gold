@@ -47,9 +47,11 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	myApp.setupDB(sqlDB)
 
 	// create a database repository
+	myApp.setupDB(sqlDB)
+
+	currency = fyneApp.Preferences().StringWithFallback("currency", "TWD")
 
 	// create and size a fyne window
 	myApp.MainWindow = fyneApp.NewWindow("GoldWatcher")
